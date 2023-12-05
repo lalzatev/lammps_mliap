@@ -254,8 +254,11 @@ void LAMMPS_NS::update_pair_energy(MLIAPData *data, double *eij)
     double e = 0.5 * eij[ii];
 
     // must not count any contribution where i is not a local atom
-    data->eatoms[i] += e;
+    if (i < nlocal) {
+      data->eatoms[i] += e; //Only add in energy if atom is owned
+    }
     e_total += e;
+
   }
   data->energy = e_total;
 }

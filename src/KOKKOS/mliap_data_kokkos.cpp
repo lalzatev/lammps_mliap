@@ -102,9 +102,12 @@ void MLIAPDataKokkos<DeviceType>::generate_neighdata(class NeighList *list_in, i
     memoryKK->create_kokkos(k_betas, betas, nlistatoms, ndescriptors, "mliap_data:betas");
     memoryKK->destroy_kokkos(k_descriptors,descriptors);
     memoryKK->create_kokkos(k_descriptors, descriptors, nlistatoms, ndescriptors, "mliap_data:descriptors");
-    memoryKK->destroy_kokkos(k_eatoms,eatoms);
-    memoryKK->create_kokkos(k_eatoms, eatoms, nlistatoms, "mliap_data:eatoms");
     nlistatoms_max = nlistatoms;
+  }
+
+  if (nlocal_max < nlocal) {
+    memoryKK->destroy_kokkos(k_eatoms,eatoms);
+    memoryKK->create_kokkos(k_eatoms, eatoms, nlocal, "mliap_data:eatoms");
   }
 
   // grow gamma arrays if necessary

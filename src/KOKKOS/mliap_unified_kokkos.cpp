@@ -283,8 +283,8 @@ void LAMMPS_NS::update_pair_energy(MLIAPDataKokkosDevice *data, double *eij)
     // must not count any contribution where i is not a local atom
     if (i < nlocal) {
       Kokkos::atomic_add(&d_eatoms[i], e);
-      local_sum += e;
     }
+    local_sum += e;
   },*data->energy);
 }
 
